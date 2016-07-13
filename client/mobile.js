@@ -4,6 +4,6 @@ var hammerTime = new Hammer(myElement);
 imperio.mobileRoomSetup(imperio.socket, imperio.room);
 
 hammerTime.on("swipeleft", function(){
-  myElement.innerHTML= "swipedLeft has been emitted";
-  imperio.emit('swipeTest', imperio.room);
+  myElement.innerHTML = "swipedLeft has been emitted";
+  imperio.socket.emit('swipeleft', imperio.room);
 });

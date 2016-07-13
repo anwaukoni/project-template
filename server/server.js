@@ -38,11 +38,18 @@ app.use(imperio.init());
  * ---------------------------------- */
 
  // App will serve up different pages for client & desktop
-app.get('/',
-  (req, res) => {
-    res.render('./../client/index.ejs');
-  }
-);
+ app.get('/',
+   (req, res) => {
+     if (req.useragent && req.useragent.isDesktop) {
+       res.render(path.join(`${__dirname}/../client/browser`));
+       // res.render(`../client/browser.html`);
+     } else if (req.useragent && req.useragent.isMobile) {
+       // TODO if token is on request, sent to tap in appropriate room
+       res.render(`${__dirname}/../client/mobileSecurityPage`, { error: null });
+       // res.sendFile(path.join(`${__dirname}/../client/mobile.html`));
+     }
+   }
+ );
 
 app.post('/',
   (req, res) => {
@@ -50,19 +57,21 @@ app.post('/',
       // TODO Validate nonce match, if it doesn't, serve rootmobile
       console.log(req.imperio);
       if (req.imperio.connected) {
-        res.render(`${__dirname}/../client/mobileSecurity`, { error: null });
+        res.render(`${__dirname}/../client/mobileSwipePage`, { error: null });
       } else {
-        res.render(`${__dirname}/../client/rootmobile`, { error: null });
+        res.render(`${__dirname}/../client/mobileSecurityPage`, { error: null });
       }
     } else {
       res.status(404)
-         .render(`${__dirname}/../client/browser.html`, { error: 'NO POST' });
+         .render(`${__dirname}/../client/mobileSecurityPage`, { error: 'NO POST' });
     }
   }
-);// 404 error on invalid endpoint
+);
+
+// 404 error on invalid endpoint
 app.get('*', (req, res) => {
   res.status(404)
-     .render('./../client/404.html');
+     .render('./../client/404');
 });
 
 /* ----------------------------------

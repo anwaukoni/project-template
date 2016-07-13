@@ -24,10 +24,18 @@ h1 {
 
 .class1 {
   color: white;
-  background-color:black;
+  background-color:yellow;
 }
 
 .class2 {
   color: black;
   background-color:white;
+}
+
+#hammerTime {
+  margin:auto;
+  display: block;
+  background-color: white;
+  width: 15em;
+  height: 5em;
 }
