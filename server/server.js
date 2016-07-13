@@ -11,7 +11,7 @@ const path = require('path');
 // Path to npm module:
 // const imperio = require('imperio')(server);
 // Path to local (in-development) version of the repository
-const imperio = require('./../../imperioDev/index.js')(server);
+const imperio = require('./../../imperio/index.js')(server);
 
 // ****************** READ THIS, TEAM IMPERIO!! *************************
 // You need to adjust the path to the desired front-end build, like above
@@ -20,7 +20,10 @@ const imperio = require('./../../imperioDev/index.js')(server);
 // Path to npm module:
 // app.use(express.static(path.join(`${__dirname}/../node_modules/imperio`)));
 // Path to local (in-development) version of the repository
-app.use(express.static(path.join(`${__dirname}/../../imperioDev`)));
+// Searches this library first for all static files and if it is not found there
+// then it searches the next satic file....and  on and on and on
+app.use(express.static(path.join(`${__dirname}/../../imperio`)));
+
 
 /* ----------------------------------
  * -----   Global Middleware   ------
@@ -40,7 +43,23 @@ app.get('/',
     res.render('./../client/index.ejs');
   }
 );
-// 404 error on invalid endpoint
+
+app.post('/',
+  (req, res) => {
+    if (req.useragent && req.useragent.isMobile) {
+      // TODO Validate nonce match, if it doesn't, serve rootmobile
+      console.log(req.imperio);
+      if (req.imperio.connected) {
+        res.render(`${__dirname}/../client/mobileSecurity`, { error: null });
+      } else {
+        res.render(`${__dirname}/../client/rootmobile`, { error: null });
+      }
+    } else {
+      res.status(404)
+         .render(`${__dirname}/../client/browser.html`, { error: 'NO POST' });
+    }
+  }
+);// 404 error on invalid endpoint
 app.get('*', (req, res) => {
   res.status(404)
      .render('./../client/404.html');

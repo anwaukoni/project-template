@@ -1,1 +1,33 @@
 
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  text-align: center;
+  background-color:rgba(0, 0, 0, 1);
+  margin:0;
+}
+
+h1 {
+  margin:0;
+  color: rgba(44, 53, 172, 1);
+  font-size:4em;
+  font-weight:100;
+}
+
+#nonceContainer {
+  color:rgba(88, 36, 169, 1);
+  font-size:1.25em;
+}
+
+#nonceContainer span {
+  color: rgba(249, 226, 34, 1);
+}
+
+.class1 {
+  color: white;
+  background-color:black;
+}
+
+.class2 {
+  color: black;
+  background-color:white;
+}
